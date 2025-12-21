@@ -1,5 +1,7 @@
 import { t, getDateLocaleString } from './i18n';
 import { parseDateTime, extractMeetingUrl } from './parser';
+import { extractTitle } from './extractor';
+import { showConfirmToast, showToast } from './toast';
 
 // Format date for Google Calendar URL (YYYYMMDDTHHMMSS)
 function formatDateForGcal(date: Date): string {
@@ -29,7 +31,15 @@ export function fillCalendarFields(text: string): void {
   let hasChanges = false;
   const results: string[] = [];
   
-  // 1. Parse date/time
+  // 1. Extract title
+  const title = extractTitle(text);
+  if (title) {
+    params.set('text', title);
+    hasChanges = true;
+    results.push(`📝 ${title}`);
+  }
+  
+  // 2. Parse date/time
   const dateTime = parseDateTime(text);
   if (dateTime) {
     const startStr = formatDateForGcal(dateTime.start);
@@ -43,7 +53,7 @@ export function fillCalendarFields(text: string): void {
     results.push(`📅 ${startDisplay}${t('dateSeparator')}${endDisplay}`);
   }
   
-  // 2. Extract meeting URL
+  // 3. Extract meeting URL
   const meetingUrl = extractMeetingUrl(text);
   if (meetingUrl) {
     params.set('location', meetingUrl);
@@ -51,25 +61,26 @@ export function fillCalendarFields(text: string): void {
     results.push(`🔗 ${meetingUrl}`);
   }
   
-  // 3. Keep description as-is
+  // 4. Keep description as-is
   params.set('details', text);
   
   if (hasChanges) {
     const confirmMessage = [
       t('confirmTitle'),
-      '',
       ...results,
-      '',
-      t('confirmReload'),
-      t('confirmProceed'),
     ].join('\n');
     
-    if (confirm(confirmMessage)) {
+    showConfirmToast(confirmMessage, () => {
       const newUrl = `${currentUrl.origin}${currentUrl.pathname}?${params.toString()}`;
       console.log('[GCal Magic Filler] Redirecting to:', newUrl);
       window.location.href = newUrl;
-    }
+    });
   } else {
-    alert(t('notFoundError'));
+    showToast({
+      message: t('notFoundError'),
+      type: 'error',
+      duration: 5000,
+    });
   }
 }
+

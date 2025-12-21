@@ -1,3 +1,34 @@
+/* CSS Custom Properties - Light Mode (default) */
+:root {
+  --gcal-btn-bg: #1a73e8;
+  --gcal-btn-hover: #1557b0;
+  --gcal-btn-active: #174ea6;
+  --gcal-btn-shadow: rgba(60, 64, 67, 0.3);
+  --gcal-toast-bg: #323232;
+  --gcal-toast-success: #0f5132;
+  --gcal-toast-error: #842029;
+  --gcal-toast-text: #fff;
+  --gcal-toast-link: #8ab4f8;
+  --gcal-toast-link-hover: rgba(138, 180, 248, 0.08);
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --gcal-btn-bg: #8ab4f8;
+    --gcal-btn-hover: #aecbfa;
+    --gcal-btn-active: #669df6;
+    --gcal-btn-shadow: rgba(0, 0, 0, 0.5);
+    --gcal-toast-bg: #202124;
+    --gcal-toast-success: #1e4620;
+    --gcal-toast-error: #5c1f24;
+    --gcal-toast-text: #e8eaed;
+    --gcal-toast-link: #8ab4f8;
+    --gcal-toast-link-hover: rgba(138, 180, 248, 0.15);
+  }
+}
+
+/* Button Container */
 .magic-fill-container {
   position: absolute;
   top: -4px;
@@ -6,32 +37,127 @@
 }
 
 #magic-fill-btn {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--gcal-btn-bg);
   border: none;
-  border-radius: 16px;
+  border-radius: 4px;
   color: white;
   cursor: pointer;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-  font-size: 11px;
+  font-family: "Google Sans", Roboto, Arial, sans-serif;
+  font-size: 12px;
   font-weight: 500;
-  padding: 4px 10px;
+  padding: 6px 12px;
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 4px rgba(102, 126, 234, 0.3);
+  gap: 6px;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+@media (prefers-color-scheme: dark) {
+  #magic-fill-btn {
+    color: #202124;
+  }
 }
 
 #magic-fill-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(102, 126, 234, 0.4);
+  background: var(--gcal-btn-hover);
+  box-shadow: 0 1px 3px var(--gcal-btn-shadow);
 }
 
 #magic-fill-btn:active {
+  background: var(--gcal-btn-active);
+}
+
+#xDescIn {
+  position: relative !important;
+}
+
+/* Toast Container */
+.gcal-magic-toast-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+}
+
+/* Toast Base */
+.gcal-magic-toast {
+  background: var(--gcal-toast-bg);
+  border-radius: 8px;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.14), 0 1px 18px rgba(0, 0, 0, 0.12);
+  color: var(--gcal-toast-text);
+  font-family: Roboto, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+  padding: 14px 16px;
+  min-width: 288px;
+  max-width: 400px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: auto;
+}
+
+.gcal-magic-toast--visible {
+  opacity: 1;
   transform: translateY(0);
 }
 
-/* 説明欄の親要素にposition: relativeを設定 */
-#xDescIn {
-  position: relative !important;
+.gcal-magic-toast-success {
+  background: var(--gcal-toast-success);
+}
+
+.gcal-magic-toast-error {
+  background: var(--gcal-toast-error);
+}
+
+.gcal-magic-toast-info {
+  background: var(--gcal-toast-bg);
+}
+
+.gcal-magic-toast__message {
+  white-space: pre-line;
+}
+
+.gcal-magic-toast__actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  justify-content: flex-end;
+}
+
+.gcal-magic-toast__button {
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  color: var(--gcal-toast-link);
+  cursor: pointer;
+  font-family: Roboto, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 12px;
+  text-transform: uppercase;
+  transition: background 0.2s;
+}
+
+.gcal-magic-toast__button:hover {
+  background: var(--gcal-toast-link-hover);
+}
+
+.gcal-magic-toast__button:first-child {
+  color: #fff;
+  background: var(--gcal-btn-bg);
+}
+
+@media (prefers-color-scheme: dark) {
+  .gcal-magic-toast__button:first-child {
+    color: #202124;
+  }
+}
+
+.gcal-magic-toast__button:first-child:hover {
+  background: var(--gcal-btn-hover);
 }

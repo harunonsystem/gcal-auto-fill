@@ -12,4 +12,11 @@ export const ELEMENT_IDS = {
 // CSS Classes
 export const CSS_CLASSES = {
   MAGIC_FILL_CONTAINER: 'magic-fill-container',
+  TOAST_CONTAINER: 'gcal-magic-toast-container',
+  TOAST: 'gcal-magic-toast',
+  TOAST_VISIBLE: 'gcal-magic-toast--visible',
+  TOAST_MESSAGE: 'gcal-magic-toast__message',
+  TOAST_ACTIONS: 'gcal-magic-toast__actions',
+  TOAST_BUTTON: 'gcal-magic-toast__button',
 } as const;
+
