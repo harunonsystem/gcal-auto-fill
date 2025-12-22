@@ -6,17 +6,17 @@ export const SELECTORS = {
 
 // Element IDs
 export const ELEMENT_IDS = {
-  MAGIC_FILL_BUTTON: 'magic-fill-btn',
+  AUTO_FILL_BUTTON: 'gcal-auto-fill-btn',
 } as const;
 
 // CSS Classes
 export const CSS_CLASSES = {
-  MAGIC_FILL_CONTAINER: 'magic-fill-container',
-  TOAST_CONTAINER: 'gcal-magic-toast-container',
-  TOAST: 'gcal-magic-toast',
-  TOAST_VISIBLE: 'gcal-magic-toast--visible',
-  TOAST_MESSAGE: 'gcal-magic-toast__message',
-  TOAST_ACTIONS: 'gcal-magic-toast__actions',
-  TOAST_BUTTON: 'gcal-magic-toast__button',
+  AUTO_FILL_CONTAINER: 'gcal-auto-fill-container',
+  TOAST_CONTAINER: 'gcal-auto-fill-toast-container',
+  TOAST: 'gcal-auto-fill-toast',
+  TOAST_VISIBLE: 'gcal-auto-fill-toast--visible',
+  TOAST_MESSAGE: 'gcal-auto-fill-toast__message',
+  TOAST_ACTIONS: 'gcal-auto-fill-toast__actions',
+  TOAST_BUTTON: 'gcal-auto-fill-toast__button',
 } as const;
 

@@ -7,17 +7,17 @@ import './style.css';
 export default defineContentScript({
   matches: ['https://calendar.google.com/*'],
   main() {
-    console.log('[GCal Magic Filler] Content script loaded');
+    console.log('[GCal Auto Fill] Content script loaded');
     
     const observer = new MutationObserver(() => {
       const descriptionArea = document.querySelector(SELECTORS.DESCRIPTION_AREA);
       
-      if (descriptionArea && !document.getElementById(ELEMENT_IDS.MAGIC_FILL_BUTTON)) {
+      if (descriptionArea && !document.getElementById(ELEMENT_IDS.AUTO_FILL_BUTTON)) {
         const container = document.createElement('div');
-        container.className = CSS_CLASSES.MAGIC_FILL_CONTAINER;
+        container.className = CSS_CLASSES.AUTO_FILL_CONTAINER;
         
         const btn = document.createElement('button');
-        btn.id = ELEMENT_IDS.MAGIC_FILL_BUTTON;
+        btn.id = ELEMENT_IDS.AUTO_FILL_BUTTON;
         btn.innerHTML = t('buttonLabel');
         btn.type = 'button';
         

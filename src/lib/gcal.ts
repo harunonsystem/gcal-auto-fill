@@ -72,7 +72,7 @@ export function fillCalendarFields(text: string): void {
     
     showConfirmToast(confirmMessage, () => {
       const newUrl = `${currentUrl.origin}${currentUrl.pathname}?${params.toString()}`;
-      console.log('[GCal Magic Filler] Redirecting to:', newUrl);
+      console.log('[GCal Auto Fill] Redirecting to:', newUrl);
       window.location.href = newUrl;
     });
   } else {

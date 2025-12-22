@@ -1,5 +1,5 @@
 {
-  "name": "gcal-input-helper",
+  "name": "gcal-auto-fill",
   "description": "Browser extension that assists with Google Calendar event creation",
   "private": true,
   "version": "0.0.1",

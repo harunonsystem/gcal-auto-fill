@@ -29,14 +29,14 @@
 }
 
 /* Button Container */
-.magic-fill-container {
+.gcal-auto-fill-container {
   position: absolute;
   top: -4px;
   right: 0;
   z-index: 100;
 }
 
-#magic-fill-btn {
+#gcal-auto-fill-btn {
   background: var(--gcal-btn-bg);
   border: none;
   border-radius: 4px;
@@ -53,17 +53,17 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  #magic-fill-btn {
+  #gcal-auto-fill-btn {
     color: #202124;
   }
 }
 
-#magic-fill-btn:hover {
+#gcal-auto-fill-btn:hover {
   background: var(--gcal-btn-hover);
   box-shadow: 0 1px 3px var(--gcal-btn-shadow);
 }
 
-#magic-fill-btn:active {
+#gcal-auto-fill-btn:active {
   background: var(--gcal-btn-active);
 }
 
@@ -72,7 +72,7 @@
 }
 
 /* Toast Container */
-.gcal-magic-toast-container {
+.gcal-auto-fill-toast-container {
   position: fixed;
   bottom: 20px;
   right: 20px;
@@ -84,7 +84,7 @@
 }
 
 /* Toast Base */
-.gcal-magic-toast {
+.gcal-auto-fill-toast {
   background: var(--gcal-toast-bg);
   border-radius: 8px;
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.14), 0 1px 18px rgba(0, 0, 0, 0.12);
@@ -101,35 +101,35 @@
   pointer-events: auto;
 }
 
-.gcal-magic-toast--visible {
+.gcal-auto-fill-toast--visible {
   opacity: 1;
   transform: translateY(0);
 }
 
-.gcal-magic-toast-success {
+.gcal-auto-fill-toast-success {
   background: var(--gcal-toast-success);
 }
 
-.gcal-magic-toast-error {
+.gcal-auto-fill-toast-error {
   background: var(--gcal-toast-error);
 }
 
-.gcal-magic-toast-info {
+.gcal-auto-fill-toast-info {
   background: var(--gcal-toast-bg);
 }
 
-.gcal-magic-toast__message {
+.gcal-auto-fill-toast__message {
   white-space: pre-line;
 }
 
-.gcal-magic-toast__actions {
+.gcal-auto-fill-toast__actions {
   display: flex;
   gap: 8px;
   margin-top: 12px;
   justify-content: flex-end;
 }
 
-.gcal-magic-toast__button {
+.gcal-auto-fill-toast__button {
   background: transparent;
   border: none;
   border-radius: 4px;
@@ -143,21 +143,21 @@
   transition: background 0.2s;
 }
 
-.gcal-magic-toast__button:hover {
+.gcal-auto-fill-toast__button:hover {
   background: var(--gcal-toast-link-hover);
 }
 
-.gcal-magic-toast__button:first-child {
+.gcal-auto-fill-toast__button:first-child {
   color: #fff;
   background: var(--gcal-btn-bg);
 }
 
 @media (prefers-color-scheme: dark) {
-  .gcal-magic-toast__button:first-child {
+  .gcal-auto-fill-toast__button:first-child {
     color: #202124;
   }
 }
 
-.gcal-magic-toast__button:first-child:hover {
+.gcal-auto-fill-toast__button:first-child:hover {
   background: var(--gcal-btn-hover);
 }

@@ -70,12 +70,14 @@ describe('parseDateTime', () => {
   describe('Mixed content', () => {
     it('should parse English date with 24-hour time in email', () => {
       const text = `
-Apologies for the short notice, but how does your availability look for the following date and time?
+Hi team,
 
-December 23rd (Tuesday) 18:00 - 19:00
-https://meet.google.com/gmo-qzma-fys
+Let's sync up on the project status.
 
-We're expecting about 8 people maximum!
+Date: December 23rd (Tuesday) 18:00 - 19:00
+Location: https://meet.google.com/abc-defg-hij
+
+Please update the agenda beforehand.
       `;
       const result = parseDateTime(text);
       
@@ -105,6 +107,18 @@ describe('extractMeetingUrl', () => {
     const text = 'Teams: https://teams.microsoft.com/l/meetup-join/xxx';
     const result = extractMeetingUrl(text);
     expect(result).toBe('https://teams.microsoft.com/l/meetup-join/xxx');
+  });
+
+  it('should extract Webex subdomain URL', () => {
+    const text = 'Webex: https://company.webex.com/meet/user123';
+    const result = extractMeetingUrl(text);
+    expect(result).toBe('https://company.webex.com/meet/user123');
+  });
+
+  it('should extract Slack Huddles URL', () => {
+    const text = 'Slack: https://app.slack.com/huddle/T12345/C67890';
+    const result = extractMeetingUrl(text);
+    expect(result).toBe('https://app.slack.com/huddle/T12345/C67890');
   });
 
   it('should return null if no meeting URL found', () => {
