@@ -1,5 +1,11 @@
 # GCal Auto Fill
 
+[![CI](https://github.com/harunonsystem/gcal-auto-fill/actions/workflows/ci.yml/badge.svg)](https://github.com/harunonsystem/gcal-auto-fill/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/harunonsystem/gcal-auto-fill)](https://github.com/harunonsystem/gcal-auto-fill/releases)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+English | [日本語](README-ja.md)
+
 A browser extension that automatically extracts date/time and meeting URLs from the description field in Google Calendar.
 
 ## Features
@@ -11,6 +17,15 @@ A browser extension that automatically extracts date/time and meeting URLs from 
 - 🌙 **Dark Mode** - Supports system theme preference
 
 ## Installation
+
+### From GitHub Releases
+
+1. Download latest zip from [Releases](https://github.com/harunonsystem/gcal-auto-fill/releases)
+2. Extract the zip
+3. Chrome: Navigate to `chrome://extensions`
+4. Enable "Developer mode"
+5. Click "Load unpacked"
+6. Select the extracted folder
 
 ### From Source
 
