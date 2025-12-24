@@ -6,7 +6,8 @@ const messages = {
     confirmTitle: 'Create event with the following details:',
     confirmReload: '* Page will reload',
     confirmProceed: 'Proceed?',
-    notFoundError: 'No date/time or meeting URL found.\n\nExample: "December 23, 6:00 PM - 7:00 PM"',
+    notFoundError:
+      'No date/time or meeting URL found.\n\nExample: "December 23, 6:00 PM - 7:00 PM"',
     dateSeparator: ' - ',
   },
   ja: {
@@ -15,7 +16,8 @@ const messages = {
     confirmTitle: '以下の内容でイベントを作成します：',
     confirmReload: '※ページがリロードされます',
     confirmProceed: '続行しますか？',
-    notFoundError: '日時または会議URLが見つかりませんでした。\n\n例: "12月23日 18:00〜19:00" のような形式で入力してください。',
+    notFoundError:
+      '日時または会議URLが見つかりませんでした。\n\n例: "12月23日 18:00〜19:00" のような形式で入力してください。',
     dateSeparator: ' 〜 ',
   },
 } as const;

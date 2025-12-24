@@ -1,15 +1,14 @@
-// DOM Selectors
+import { getConfig } from './config';
+
 export const SELECTORS = {
   DESCRIPTION_AREA: '#xDescIn .editable',
   DESCRIPTION_CONTAINER: 'xDescIn',
 } as const;
 
-// Element IDs
 export const ELEMENT_IDS = {
   AUTO_FILL_BUTTON: 'gcal-auto-fill-btn',
 } as const;
 
-// CSS Classes
 export const CSS_CLASSES = {
   AUTO_FILL_CONTAINER: 'gcal-auto-fill-container',
   TOAST_CONTAINER: 'gcal-auto-fill-toast-container',
@@ -20,3 +19,4 @@ export const CSS_CLASSES = {
   TOAST_BUTTON: 'gcal-auto-fill-toast__button',
 } as const;
 
+export const CONFIG = getConfig();

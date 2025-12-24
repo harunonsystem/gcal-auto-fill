@@ -2,9 +2,17 @@ import { t, getDateLocaleString } from './i18n';
 import { parseDateTime, extractMeetingUrl } from './parser';
 import { extractTitle } from './extractor';
 import { showConfirmToast, showToast } from './toast';
+import { getConfig } from './config';
+import { ErrorHandler } from './error-handler';
 
-// Format date for Google Calendar URL (YYYYMMDDTHHMMSS)
-function formatDateForGcal(date: Date): string {
+export interface GCalParams {
+  text?: string;
+  dates?: string;
+  location?: string;
+  details: string;
+}
+
+export function formatDateForGcal(date: Date): string {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const day = String(date.getDate()).padStart(2, '0');
@@ -24,63 +32,85 @@ function formatDisplayDate(date: Date): string {
   });
 }
 
-export function fillCalendarFields(text: string): void {
-  const currentUrl = new URL(window.location.href);
-  const params = new URLSearchParams(currentUrl.search);
-  
+export function buildGCalParams(text: string): GCalParams | null {
+  const params: GCalParams = { details: text };
   let hasChanges = false;
-  const results: string[] = [];
-  
-  // 1. Extract title
+
   const title = extractTitle(text);
   if (title) {
-    params.set('text', title);
+    params.text = title.text;
     hasChanges = true;
-    results.push(`📝 ${title}`);
   }
-  
-  // 2. Parse date/time
+
   const dateTime = parseDateTime(text);
   if (dateTime) {
     const startStr = formatDateForGcal(dateTime.start);
     const endStr = formatDateForGcal(dateTime.end);
-    
-    params.set('dates', `${startStr}/${endStr}`);
+    params.dates = `${startStr}/${endStr}`;
     hasChanges = true;
-    
-    const startDisplay = formatDisplayDate(dateTime.start);
-    const endDisplay = formatDisplayDate(dateTime.end);
-    results.push(`📅 ${startDisplay}${t('dateSeparator')}${endDisplay}`);
   }
-  
-  // 3. Extract meeting URL
+
   const meetingUrl = extractMeetingUrl(text);
   if (meetingUrl) {
-    params.set('location', meetingUrl);
+    params.location = meetingUrl;
     hasChanges = true;
-    results.push(`🔗 ${meetingUrl}`);
   }
-  
-  // 4. Keep description as-is
-  params.set('details', text);
-  
-  if (hasChanges) {
-    const confirmMessage = [
-      t('confirmTitle'),
-      ...results,
-    ].join('\n');
-    
+
+  return hasChanges ? params : null;
+}
+
+export function fillCalendarFields(text: string): void {
+  try {
+    const currentUrl = new URL(window.location.href);
+    const urlParams = new URLSearchParams(currentUrl.search);
+
+    const gcalParams = buildGCalParams(text);
+    if (!gcalParams) {
+      showToast({
+        message: t('notFoundError'),
+        type: 'error',
+        duration: getConfig().ui.toastDuration,
+      });
+      return;
+    }
+
+    const results: string[] = [];
+
+    if (gcalParams.text) {
+      urlParams.set('text', gcalParams.text);
+      results.push(`📝 ${gcalParams.text}`);
+    }
+
+    if (gcalParams.dates) {
+      urlParams.set('dates', gcalParams.dates);
+      const dateTime = parseDateTime(text);
+      if (dateTime) {
+        const startDisplay = formatDisplayDate(dateTime.start);
+        const endDisplay = formatDisplayDate(dateTime.end);
+        results.push(`📅 ${startDisplay}${t('dateSeparator')}${endDisplay}`);
+      }
+    }
+
+    if (gcalParams.location) {
+      urlParams.set('location', gcalParams.location);
+      results.push(`🔗 ${gcalParams.location}`);
+    }
+
+    urlParams.set('details', gcalParams.details);
+
+    const confirmMessage = [t('confirmTitle'), ...results].join('\n');
+
     showConfirmToast(confirmMessage, () => {
-      const newUrl = `${currentUrl.origin}${currentUrl.pathname}?${params.toString()}`;
+      const newUrl = `${currentUrl.origin}${currentUrl.pathname}?${urlParams.toString()}`;
       console.log('[GCal Auto Fill] Redirecting to:', newUrl);
       window.location.href = newUrl;
     });
-  } else {
+  } catch (error) {
+    ErrorHandler.handleUnknown(error);
     showToast({
       message: t('notFoundError'),
       type: 'error',
-      duration: 5000,
+      duration: getConfig().ui.toastDuration,
     });
   }
 }
-
