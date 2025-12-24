@@ -138,7 +138,9 @@ export class ToastManager {
     });
 
     if (!options.onConfirm && !options.onCancel) {
-      await new Promise((resolve) => setTimeout(resolve, options.duration || CONFIG.ui.toastDuration));
+      await new Promise((resolve) =>
+        setTimeout(resolve, options.duration || CONFIG.ui.toastDuration),
+      );
       this.removeToast(toast);
     }
   }

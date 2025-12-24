@@ -98,10 +98,7 @@ export function fillCalendarFields(text: string): void {
 
     urlParams.set('details', gcalParams.details);
 
-    const confirmMessage = [
-      t('confirmTitle'),
-      ...results,
-    ].join('\n');
+    const confirmMessage = [t('confirmTitle'), ...results].join('\n');
 
     showConfirmToast(confirmMessage, () => {
       const newUrl = `${currentUrl.origin}${currentUrl.pathname}?${urlParams.toString()}`;

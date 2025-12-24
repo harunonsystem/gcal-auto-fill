@@ -8,8 +8,17 @@ const SUBJECT_PATTERNS = [
 ];
 
 const TITLE_PREFIXES = [
-  '【', '『', '「', '『', '(', '[', '<',
-  'Subject:', 'Title:', '件名:', 'タイトル:',
+  '【',
+  '『',
+  '「',
+  '『',
+  '(',
+  '[',
+  '<',
+  'Subject:',
+  'Title:',
+  '件名:',
+  'タイトル:',
 ];
 
 function calculateConfidence(text: string, source: ExtractedTitle['source']): number {
@@ -23,7 +32,7 @@ function calculateConfidence(text: string, source: ExtractedTitle['source']): nu
     score = 0.6;
   }
 
-  const hasTitlePrefix = TITLE_PREFIXES.some(prefix => text.startsWith(prefix));
+  const hasTitlePrefix = TITLE_PREFIXES.some((prefix) => text.startsWith(prefix));
   if (hasTitlePrefix) {
     score += 0.1;
   }
@@ -44,7 +53,10 @@ function calculateConfidence(text: string, source: ExtractedTitle['source']): nu
 }
 
 function extractFromSubjectPatterns(text: string): ExtractedTitle | null {
-  const lines = text.split('\n').map(line => line.trim()).filter(Boolean);
+  const lines = text
+    .split('\n')
+    .map((line) => line.trim())
+    .filter(Boolean);
 
   for (const line of lines) {
     for (const pattern of SUBJECT_PATTERNS) {
@@ -64,7 +76,10 @@ function extractFromSubjectPatterns(text: string): ExtractedTitle | null {
 }
 
 function extractFromFirstLine(text: string): ExtractedTitle | null {
-  const lines = text.split('\n').map(line => line.trim()).filter(Boolean);
+  const lines = text
+    .split('\n')
+    .map((line) => line.trim())
+    .filter(Boolean);
 
   if (lines.length === 0) {
     return null;

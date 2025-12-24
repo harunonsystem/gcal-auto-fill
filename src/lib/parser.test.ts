@@ -19,7 +19,7 @@ describe('parseDateTime', () => {
     it('should parse "December 23 at 18:00"', () => {
       const text = 'December 23 at 18:00';
       const result = parseDateTime(text);
-      
+
       expect(result).not.toBeNull();
       expect(result!.start.getHours()).toBe(18);
     });
@@ -27,7 +27,7 @@ describe('parseDateTime', () => {
     it('should parse "January 15 at 9:30 AM"', () => {
       const text = 'Meeting on January 15 at 9:30 AM';
       const result = parseDateTime(text);
-      
+
       expect(result).not.toBeNull();
       expect(result!.start.getMonth()).toBe(0); // January = 0
       expect(result!.start.getDate()).toBe(15);
@@ -38,7 +38,7 @@ describe('parseDateTime', () => {
     it('should parse "tomorrow at 3pm"', () => {
       const text = "Let's meet tomorrow at 3pm";
       const result = parseDateTime(text);
-      
+
       expect(result).not.toBeNull();
       const tomorrow = new Date();
       tomorrow.setDate(tomorrow.getDate() + 1);
@@ -51,7 +51,7 @@ describe('parseDateTime', () => {
     it('should parse "12月23日 18:00〜19:00"', () => {
       const text = '12月23日 18:00〜19:00';
       const result = parseDateTime(text);
-      
+
       expect(result).not.toBeNull();
       expect(result!.start.getMonth()).toBe(11);
       expect(result!.start.getDate()).toBe(23);
@@ -61,7 +61,7 @@ describe('parseDateTime', () => {
     it('should parse "明日 14時"', () => {
       const text = '明日 14時に会議';
       const result = parseDateTime(text);
-      
+
       expect(result).not.toBeNull();
       expect(result!.start.getHours()).toBe(14);
     });

@@ -11,7 +11,7 @@ export class ExtensionError extends Error {
     public type: ErrorType,
     message: string,
     public recoverable: boolean = true,
-    public context?: Record<string, any>
+    public context?: Record<string, any>,
   ) {
     super(message);
     this.name = 'ExtensionError';
@@ -40,12 +40,9 @@ export class ErrorHandler {
     }
 
     if (error instanceof Error) {
-      const extensionError = new ExtensionError(
-        ErrorType.PARSING_FAILED,
-        error.message,
-        true,
-        { originalError: error.name }
-      );
+      const extensionError = new ExtensionError(ErrorType.PARSING_FAILED, error.message, true, {
+        originalError: error.name,
+      });
       this.handle(extensionError);
       return extensionError;
     }

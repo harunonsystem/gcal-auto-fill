@@ -4,11 +4,12 @@ import { getConfig } from './config';
 import { ErrorHandler } from './error-handler';
 
 const JAPANESE_CHARS_REGEX = /[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]/;
-const ENGLISH_DATE_KEYWORDS_REGEX = /\b(january|february|march|april|may|june|july|august|september|october|november|december|monday|tuesday|wednesday|thursday|friday|saturday|sunday|today|tomorrow|yesterday)\b/i;
+const ENGLISH_DATE_KEYWORDS_REGEX =
+  /\b(january|february|march|april|may|june|july|august|september|october|november|december|monday|tuesday|wednesday|thursday|friday|saturday|sunday|today|tomorrow|yesterday)\b/i;
 const TIME_24H_REGEX = /\b([01]?\d|2[0-3]):([0-5]\d)\b/g;
 const MEETING_URL_REGEX = new RegExp(
   `https://(?:[a-zA-Z0-9-]+\\.)?(?:${getConfig().parsing.supportedMeetingPlatforms.join('|')})/[^\\s<>]+`,
-  'gi'
+  'gi',
 );
 const HTML_TAG_REGEX = /<[^>]*>/g;
 

@@ -21,8 +21,8 @@ export function showToast(options: ToastOptions): void {
   };
 
   if (options.actions && options.actions.length > 0) {
-    const confirmAction = options.actions.find(a => a.label === '✓');
-    const cancelAction = options.actions.find(a => a.label === '✕');
+    const confirmAction = options.actions.find((a) => a.label === '✓');
+    const cancelAction = options.actions.find((a) => a.label === '✕');
 
     if (confirmAction) {
       internalOptions.onConfirm = confirmAction.onClick;
@@ -38,7 +38,7 @@ export function showToast(options: ToastOptions): void {
 export function showConfirmToast(
   message: string,
   onConfirm: () => void,
-  onCancel?: () => void
+  onCancel?: () => void,
 ): void {
   toastManager.show({
     message,

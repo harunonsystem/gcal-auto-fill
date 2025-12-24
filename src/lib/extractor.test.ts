@@ -9,7 +9,8 @@ describe('extractTitle', () => {
     });
 
     it('should truncate long titles to 50 chars', () => {
-      const text = 'This is a very long title that exceeds the maximum allowed character limit for titles';
+      const text =
+        'This is a very long title that exceeds the maximum allowed character limit for titles';
       const result = extractTitle(text);
       expect(result!.text.length).toBe(50);
       expect(result?.text).toMatch(/\.\.$/);

@@ -42,14 +42,16 @@
   border-radius: 4px;
   color: white;
   cursor: pointer;
-  font-family: "Google Sans", Roboto, Arial, sans-serif;
+  font-family: 'Google Sans', Roboto, Arial, sans-serif;
   font-size: 12px;
   font-weight: 500;
   padding: 6px 12px;
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  transition: background 0.2s, box-shadow 0.2s;
+  transition:
+    background 0.2s,
+    box-shadow 0.2s;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -87,7 +89,9 @@
 .gcal-auto-fill-toast {
   background: var(--gcal-toast-bg);
   border-radius: 8px;
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.14), 0 1px 18px rgba(0, 0, 0, 0.12);
+  box-shadow:
+    0 6px 10px rgba(0, 0, 0, 0.14),
+    0 1px 18px rgba(0, 0, 0, 0.12);
   color: var(--gcal-toast-text);
   font-family: Roboto, Arial, sans-serif;
   font-size: 14px;
@@ -97,7 +101,9 @@
   max-width: 400px;
   opacity: 0;
   transform: translateY(20px);
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
   pointer-events: auto;
 }
 

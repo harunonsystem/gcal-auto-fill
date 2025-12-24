@@ -29,7 +29,7 @@ export const DEFAULT_CONFIG: ExtensionConfig = {
       'teams.microsoft.com',
       'meet.google.com',
       'webex.com',
-      'slack.com/huddle'
+      'slack.com/huddle',
     ],
     maxTitleLength: 50,
     maxTitleSuffixLength: 3,
