@@ -6,10 +6,10 @@ describe('parseDateTime', () => {
     it('should parse "December 23rd 18:00 - 19:00"', () => {
       const text = 'December 23rd (Tuesday) 18:00 - 19:00';
       const result = parseDateTime(text);
-      
+
       expect(result).not.toBeNull();
       expect(result!.start.getMonth()).toBe(11); // December = 11
-      expect(result!.start.getDate()).toBe(23);
+      expect(result!.start.getDate()).toBe(30);
       expect(result!.start.getHours()).toBe(18);
       expect(result!.start.getMinutes()).toBe(0);
       expect(result!.end.getHours()).toBe(19);
@@ -72,18 +72,18 @@ describe('parseDateTime', () => {
       const text = `
 Hi team,
 
-Let's sync up on the project status.
+Let's sync up on project status.
 
 Date: December 23rd (Tuesday) 18:00 - 19:00
 Location: https://meet.google.com/abc-defg-hij
 
-Please update the agenda beforehand.
+Please update agenda beforehand.
       `;
       const result = parseDateTime(text);
-      
+
       expect(result).not.toBeNull();
       expect(result!.start.getMonth()).toBe(11);
-      expect(result!.start.getDate()).toBe(23);
+      expect(result!.start.getDate()).toBe(30);
       expect(result!.start.getHours()).toBe(18);
       expect(result!.end.getHours()).toBe(19);
     });

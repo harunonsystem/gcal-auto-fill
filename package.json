@@ -11,11 +11,13 @@
     "build:firefox": "wxt build -b firefox",
     "zip": "wxt zip",
     "zip:firefox": "wxt zip -b firefox",
-    "check": "tsc --noEmit",
+    "typecheck": "tsc --noEmit",
     "lint": "oxlint src",
     "lint:fix": "oxlint src --fix",
-    "test": "vitest",
-    "postinstall": "wxt prepare"
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "postinstall": "wxt prepare",
+    "check": "bun run typecheck && bun run lint && bun run test && bun run build"
   },
   "devDependencies": {
     "oxlint": "^1.34.0",
