@@ -2,7 +2,7 @@
   "name": "gcal-auto-fill",
   "description": "Browser extension that assists with Google Calendar event creation",
   "private": true,
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
   "scripts": {
     "dev": "wxt",
@@ -19,7 +19,10 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "postinstall": "wxt prepare",
-    "check": "bun run typecheck && bun run lint && bun run format:check && bun run test && bun run build"
+    "check": "bun run typecheck && bun run lint && bun run format:check && bun run test && bun run build",
+    "release:patch": "npm version patch && git push --follow-tags",
+    "release:minor": "npm version minor && git push --follow-tags",
+    "release:major": "npm version major && git push --follow-tags"
   },
   "devDependencies": {
     "oxfmt": "^0.20.0",
