@@ -9,7 +9,7 @@ describe('parseDateTime', () => {
 
       expect(result).not.toBeNull();
       expect(result!.start.getMonth()).toBe(11); // December = 11
-      expect(result!.start.getDate()).toBe(30);
+      expect(result!.start.getDate()).toBe(23);
       expect(result!.start.getHours()).toBe(18);
       expect(result!.start.getMinutes()).toBe(0);
       expect(result!.end.getHours()).toBe(19);
@@ -83,7 +83,7 @@ Please update agenda beforehand.
 
       expect(result).not.toBeNull();
       expect(result!.start.getMonth()).toBe(11);
-      expect(result!.start.getDate()).toBe(30);
+      expect(result!.start.getDate()).toBe(23);
       expect(result!.start.getHours()).toBe(18);
       expect(result!.end.getHours()).toBe(19);
     });

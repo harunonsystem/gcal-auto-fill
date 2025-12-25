@@ -7,6 +7,13 @@ const JAPANESE_CHARS_REGEX = /[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]/;
 const ENGLISH_DATE_KEYWORDS_REGEX =
   /\b(january|february|march|april|may|june|july|august|september|october|november|december|monday|tuesday|wednesday|thursday|friday|saturday|sunday|today|tomorrow|yesterday)\b/i;
 const TIME_24H_REGEX = /\b([01]?\d|2[0-3]):([0-5]\d)\b/g;
+// Matches parenthesized weekday names like "(Tuesday)" or "（火曜日）"
+const PARENTHESIZED_WEEKDAY_REGEX =
+  /\s*[（(]\s*(?:monday|tuesday|wednesday|thursday|friday|saturday|sunday|mon|tue|wed|thu|fri|sat|sun|月曜日?|火曜日?|水曜日?|木曜日?|金曜日?|土曜日?|日曜日?)\s*[)）]/gi;
+
+function removeParenthesizedWeekdays(text: string): string {
+  return text.replace(PARENTHESIZED_WEEKDAY_REGEX, '');
+}
 const MEETING_URL_REGEX = new RegExp(
   `https://(?:[a-zA-Z0-9-]+\\.)?(?:${getConfig().parsing.supportedMeetingPlatforms.join('|')})/[^\\s<>]+`,
   'gi',
@@ -61,20 +68,24 @@ function selectBestResult(results: chrono.ParsedResult[]): chrono.ParsedResult {
 
 export function parseDateTime(text: string): ParsedDateTime | null {
   try {
-    const hasJapanese = containsJapanese(text);
-    const hasEnglishDate = containsEnglishDate(text);
+    // Remove parenthesized weekdays to prevent chrono from parsing them separately
+    // e.g., "December 23rd (Tuesday)" would otherwise be parsed as two separate dates
+    const cleanedText = removeParenthesizedWeekdays(text);
+
+    const hasJapanese = containsJapanese(cleanedText);
+    const hasEnglishDate = containsEnglishDate(cleanedText);
 
     let results: chrono.ParsedResult[] = [];
 
     if (hasEnglishDate && !hasJapanese) {
-      const converted = convertTo12HourFormat(text);
+      const converted = convertTo12HourFormat(cleanedText);
       results = chrono.parse(converted, new Date(), { forwardDate: true });
     } else if (hasJapanese && !hasEnglishDate) {
-      results = chrono.ja.parse(text, new Date(), { forwardDate: true });
+      results = chrono.ja.parse(cleanedText, new Date(), { forwardDate: true });
     } else {
-      results = chrono.ja.parse(text, new Date(), { forwardDate: true });
+      results = chrono.ja.parse(cleanedText, new Date(), { forwardDate: true });
       if (results.length === 0) {
-        const converted = convertTo12HourFormat(text);
+        const converted = convertTo12HourFormat(cleanedText);
         results = chrono.parse(converted, new Date(), { forwardDate: true });
       }
     }
