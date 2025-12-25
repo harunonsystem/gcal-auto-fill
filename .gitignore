@@ -26,6 +26,3 @@ web-ext.config.ts
 *.sw?
 
 *.zip
-
-# wip
-screenshots/ 

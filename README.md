@@ -16,6 +16,10 @@ A browser extension that automatically extracts date/time and meeting URLs from 
 - 🌐 **i18n Support** - English and Japanese UI
 - 🌙 **Dark Mode** - Supports system theme preference
 
+## Demo
+
+https://github.com/user-attachments/assets/01d297f2-ce13-4d0b-bd85-545d563ef3c0
+
 ## Installation
 
 ### From GitHub Releases

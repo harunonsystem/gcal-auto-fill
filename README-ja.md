@@ -16,6 +16,10 @@ Google Calendar の説明欄から日時やミーティングURLを自動抽出�
 - 🌐 **多言語対応** - 英語・日本語UI
 - 🌙 **ダークモード** - システム設定に追従
 
+## デモ
+
+https://github.com/user-attachments/assets/89a29e98-855a-4d39-bec7-18d044fce066
+
 ## インストール
 
 ### GitHub Releases から
