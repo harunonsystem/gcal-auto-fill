@@ -20,22 +20,22 @@ const messages = {
       '日時または会議URLが見つかりませんでした。\n\n例: "12月23日 18:00〜19:00" のような形式で入力してください。',
     dateSeparator: ' 〜 ',
   },
-} as const;
+} as const
 
-export type Locale = keyof typeof messages;
-export type MessageKey = keyof typeof messages.en;
+export type Locale = keyof typeof messages
+export type MessageKey = keyof typeof messages.en
 
 export function getLocale(): Locale {
-  const lang = navigator.language.split('-')[0];
-  return lang === 'ja' ? 'ja' : 'en';
+  const lang = navigator.language.split('-')[0]
+  return lang === 'ja' ? 'ja' : 'en'
 }
 
 export function t(key: MessageKey): string {
-  const locale = getLocale();
-  return messages[locale][key];
+  const locale = getLocale()
+  return messages[locale][key]
 }
 
 export function getDateLocaleString(): string {
-  const locale = getLocale();
-  return locale === 'ja' ? 'ja-JP' : 'en-US';
+  const locale = getLocale()
+  return locale === 'ja' ? 'ja-JP' : 'en-US'
 }

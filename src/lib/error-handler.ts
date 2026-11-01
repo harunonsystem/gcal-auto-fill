@@ -13,45 +13,45 @@ export class ExtensionError extends Error {
     public recoverable: boolean = true,
     public context?: Record<string, any>,
   ) {
-    super(message);
-    this.name = 'ExtensionError';
+    super(message)
+    this.name = 'ExtensionError'
   }
 }
 
 export class ErrorHandler {
-  private static enabled: boolean = true;
+  private static enabled: boolean = true
 
   static setEnabled(enabled: boolean): void {
-    this.enabled = enabled;
+    this.enabled = enabled
   }
 
   static handle(error: ExtensionError): void {
-    if (!this.enabled) return;
+    if (!this.enabled) return
 
-    console.error(`[${error.type}]`, error.message, error.context || '');
+    console.error(`[${error.type}]`, error.message, error.context || '')
   }
 
   static handleUnknown(error: unknown): ExtensionError | null {
-    if (!this.enabled) return null;
+    if (!this.enabled) return null
 
     if (error instanceof ExtensionError) {
-      this.handle(error);
-      return error;
+      this.handle(error)
+      return error
     }
 
     if (error instanceof Error) {
       const extensionError = new ExtensionError(ErrorType.PARSING_FAILED, error.message, true, {
         originalError: error.name,
-      });
-      this.handle(extensionError);
-      return extensionError;
+      })
+      this.handle(extensionError)
+      return extensionError
     }
 
-    console.error('[UNKNOWN_ERROR]', error);
-    return null;
+    console.error('[UNKNOWN_ERROR]', error)
+    return null
   }
 
   static create(type: ErrorType, message: string, context?: Record<string, any>): ExtensionError {
-    return new ExtensionError(type, message, true, context);
+    return new ExtensionError(type, message, true, context)
   }
 }
