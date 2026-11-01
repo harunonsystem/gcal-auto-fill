@@ -1,24 +1,24 @@
 export interface ExtensionConfig {
   parsing: {
-    defaultDurationMinutes: number;
-    supportedMeetingPlatforms: string[];
-    maxTitleLength: number;
-    maxTitleSuffixLength: number;
-  };
+    defaultDurationMinutes: number
+    supportedMeetingPlatforms: string[]
+    maxTitleLength: number
+    maxTitleSuffixLength: number
+  }
   ui: {
-    toastDuration: number;
-    enableAnimations: boolean;
-    maxToastsInQueue: number;
-  };
+    toastDuration: number
+    enableAnimations: boolean
+    maxToastsInQueue: number
+  }
   selectors: {
-    retryAttempts: number;
-    validationInterval: number;
-    observerTimeout: number;
-  };
+    retryAttempts: number
+    validationInterval: number
+    observerTimeout: number
+  }
   gcal: {
-    baseUrl: string;
-    templateAction: string;
-  };
+    baseUrl: string
+    templateAction: string
+  }
 }
 
 export const DEFAULT_CONFIG: ExtensionConfig = {
@@ -48,8 +48,8 @@ export const DEFAULT_CONFIG: ExtensionConfig = {
     baseUrl: 'https://calendar.google.com/calendar/render',
     templateAction: 'TEMPLATE',
   },
-} as const;
+} as const
 
 export function getConfig(): ExtensionConfig {
-  return DEFAULT_CONFIG;
+  return DEFAULT_CONFIG
 }

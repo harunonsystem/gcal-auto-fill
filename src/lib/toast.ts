@@ -1,16 +1,16 @@
-import { toastManager } from './ui/toast-manager';
-import { ToastOptions as InternalToastOptions } from './types';
+import { toastManager } from './ui/toast-manager'
+import type { ToastOptions as InternalToastOptions } from './types'
 
-export type ToastType = 'success' | 'error' | 'info';
+export type ToastType = 'success' | 'error' | 'info'
 
 export interface ToastOptions {
-  message: string;
-  type?: ToastType;
-  duration?: number;
+  message: string
+  type?: ToastType
+  duration?: number
   actions?: Array<{
-    label: string;
-    onClick: () => void;
-  }>;
+    label: string
+    onClick: () => void
+  }>
 }
 
 export function showToast(options: ToastOptions): void {
@@ -18,21 +18,21 @@ export function showToast(options: ToastOptions): void {
     message: options.message,
     type: options.type ?? 'info',
     duration: options.duration ?? 5000,
-  };
+  }
 
   if (options.actions && options.actions.length > 0) {
-    const confirmAction = options.actions.find((a) => a.label === '✓');
-    const cancelAction = options.actions.find((a) => a.label === '✕');
+    const confirmAction = options.actions.find((a) => a.label === '✓')
+    const cancelAction = options.actions.find((a) => a.label === '✕')
 
     if (confirmAction) {
-      internalOptions.onConfirm = confirmAction.onClick;
+      internalOptions.onConfirm = confirmAction.onClick
     }
     if (cancelAction) {
-      internalOptions.onCancel = cancelAction.onClick;
+      internalOptions.onCancel = cancelAction.onClick
     }
   }
 
-  toastManager.show(internalOptions);
+  toastManager.show(internalOptions)
 }
 
 export function showConfirmToast(
@@ -46,5 +46,5 @@ export function showConfirmToast(
     duration: 0,
     onConfirm,
     onCancel,
-  });
+  })
 }

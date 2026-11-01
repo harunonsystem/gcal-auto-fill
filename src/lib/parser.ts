@@ -1,120 +1,124 @@
-import * as chrono from 'chrono-node';
-import { ParsedDateTime } from './types';
-import { getConfig } from './config';
-import { ErrorHandler } from './error-handler';
+import * as chrono from 'chrono-node'
+import type { ParsedDateTime } from './types'
+import { getConfig } from './config'
+import { ErrorHandler } from './error-handler'
 
-const JAPANESE_CHARS_REGEX = /[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]/;
+const JAPANESE_CHARS_REGEX = /[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]/
 const ENGLISH_DATE_KEYWORDS_REGEX =
-  /\b(january|february|march|april|may|june|july|august|september|october|november|december|monday|tuesday|wednesday|thursday|friday|saturday|sunday|today|tomorrow|yesterday)\b/i;
-const TIME_24H_REGEX = /\b([01]?\d|2[0-3]):([0-5]\d)\b/g;
+  /\b(january|february|march|april|may|june|july|august|september|october|november|december|monday|tuesday|wednesday|thursday|friday|saturday|sunday|today|tomorrow|yesterday)\b/i
+const TIME_24H_REGEX = /\b([01]?\d|2[0-3]):([0-5]\d)\b/g
 // Matches parenthesized weekday names like "(Tuesday)" or "（火曜日）"
 const PARENTHESIZED_WEEKDAY_REGEX =
-  /\s*[（(]\s*(?:monday|tuesday|wednesday|thursday|friday|saturday|sunday|mon|tue|wed|thu|fri|sat|sun|月曜日?|火曜日?|水曜日?|木曜日?|金曜日?|土曜日?|日曜日?)\s*[)）]/gi;
+  /\s*[（(]\s*(?:monday|tuesday|wednesday|thursday|friday|saturday|sunday|mon|tue|wed|thu|fri|sat|sun|月曜日?|火曜日?|水曜日?|木曜日?|金曜日?|土曜日?|日曜日?)\s*[)）]/gi
 
 function removeParenthesizedWeekdays(text: string): string {
-  return text.replace(PARENTHESIZED_WEEKDAY_REGEX, '');
+  return text.replace(PARENTHESIZED_WEEKDAY_REGEX, '')
 }
 const MEETING_URL_REGEX = new RegExp(
   `https://(?:[a-zA-Z0-9-]+\\.)?(?:${getConfig().parsing.supportedMeetingPlatforms.join('|')})/[^\\s<>]+`,
   'gi',
-);
-const HTML_TAG_REGEX = /<[^>]*>/g;
+)
+const HTML_TAG_REGEX = /<[^>]*>/g
 
 function containsJapanese(text: string): boolean {
-  return JAPANESE_CHARS_REGEX.test(text);
+  return JAPANESE_CHARS_REGEX.test(text)
 }
 
 function containsEnglishDate(text: string): boolean {
-  return ENGLISH_DATE_KEYWORDS_REGEX.test(text);
+  return ENGLISH_DATE_KEYWORDS_REGEX.test(text)
 }
 
 function convertTo12HourFormat(text: string): string {
   return text.replace(TIME_24H_REGEX, (match, hours, minutes) => {
-    const h = parseInt(hours, 10);
+    const h = parseInt(hours, 10)
     if (h >= 13 && h <= 23) {
-      return `${h - 12}:${minutes} PM`;
+      return `${h - 12}:${minutes} PM`
     }
     if (h === 12) {
-      return `12:${minutes} PM`;
+      return `12:${minutes} PM`
     }
     if (h === 0) {
-      return `12:${minutes} AM`;
+      return `12:${minutes} AM`
     }
     if (h >= 1 && h <= 11) {
-      return `${h}:${minutes} AM`;
+      return `${h}:${minutes} AM`
     }
-    return match;
-  });
+    return match
+  })
 }
 
 function selectBestResult(results: chrono.ParsedResult[]): chrono.ParsedResult {
-  let best = results[0];
+  const first = results[0]
+  if (!first) {
+    throw new Error('results cannot be empty')
+  }
+  let best = first
 
   for (const result of results) {
-    const hasTime = result.start.isCertain('hour');
-    const hasEnd = result.end !== null;
-    const bestHasTime = best.start.isCertain('hour');
-    const bestHasEnd = best.end !== null;
+    const hasTime = result.start.isCertain('hour')
+    const hasEnd = result.end !== null
+    const bestHasTime = best.start.isCertain('hour')
+    const bestHasEnd = best.end !== null
 
     if (hasTime && !bestHasTime) {
-      best = result;
+      best = result
     } else if (hasTime && bestHasTime && hasEnd && !bestHasEnd) {
-      best = result;
+      best = result
     }
   }
 
-  return best;
+  return best
 }
 
 export function parseDateTime(text: string): ParsedDateTime | null {
   try {
     // Remove parenthesized weekdays to prevent chrono from parsing them separately
     // e.g., "December 23rd (Tuesday)" would otherwise be parsed as two separate dates
-    const cleanedText = removeParenthesizedWeekdays(text);
+    const cleanedText = removeParenthesizedWeekdays(text)
 
-    const hasJapanese = containsJapanese(cleanedText);
-    const hasEnglishDate = containsEnglishDate(cleanedText);
+    const hasJapanese = containsJapanese(cleanedText)
+    const hasEnglishDate = containsEnglishDate(cleanedText)
 
-    let results: chrono.ParsedResult[] = [];
+    let results: chrono.ParsedResult[] = []
 
     if (hasEnglishDate && !hasJapanese) {
-      const converted = convertTo12HourFormat(cleanedText);
-      results = chrono.parse(converted, new Date(), { forwardDate: true });
+      const converted = convertTo12HourFormat(cleanedText)
+      results = chrono.parse(converted, new Date(), { forwardDate: true })
     } else if (hasJapanese && !hasEnglishDate) {
-      results = chrono.ja.parse(cleanedText, new Date(), { forwardDate: true });
+      results = chrono.ja.parse(cleanedText, new Date(), { forwardDate: true })
     } else {
-      results = chrono.ja.parse(cleanedText, new Date(), { forwardDate: true });
+      results = chrono.ja.parse(cleanedText, new Date(), { forwardDate: true })
       if (results.length === 0) {
-        const converted = convertTo12HourFormat(cleanedText);
-        results = chrono.parse(converted, new Date(), { forwardDate: true });
+        const converted = convertTo12HourFormat(cleanedText)
+        results = chrono.parse(converted, new Date(), { forwardDate: true })
       }
     }
 
     if (results.length === 0) {
-      return null;
+      return null
     }
 
-    const best = selectBestResult(results);
-    const start = best.start.date();
-    const defaultDuration = getConfig().parsing.defaultDurationMinutes * 60 * 1000;
-    const end = best.end?.date() || new Date(start.getTime() + defaultDuration);
+    const best = selectBestResult(results)
+    const start = best.start.date()
+    const defaultDuration = getConfig().parsing.defaultDurationMinutes * 60 * 1000
+    const end = best.end?.date() || new Date(start.getTime() + defaultDuration)
 
-    return { start, end };
+    return { start, end }
   } catch (error) {
-    ErrorHandler.handleUnknown(error);
-    return null;
+    ErrorHandler.handleUnknown(error)
+    return null
   }
 }
 
 export function extractMeetingUrl(text: string): string | null {
   try {
-    const matches = text.match(MEETING_URL_REGEX);
+    const matches = text.match(MEETING_URL_REGEX)
     if (!matches || matches.length === 0) {
-      return null;
+      return null
     }
-    return matches[0].replace(HTML_TAG_REGEX, '');
+    return matches[0].replace(HTML_TAG_REGEX, '')
   } catch (error) {
-    ErrorHandler.handleUnknown(error);
-    return null;
+    ErrorHandler.handleUnknown(error)
+    return null
   }
 }
