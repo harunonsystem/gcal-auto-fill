@@ -10,6 +10,8 @@ workflows:
         - 'actions/checkout@v7.0.1'
         - 'oven-sh/setup-bun@v2.2.0'
         - 'softprops/action-gh-release@v3.0.4'
+    '.github/workflows/verify-lockfile.yml':
+        - 'actions/checkout@v7.0.1'
 dependencies:
     'actions/checkout@v7.0.1':
         ref: 'v7.0.1'
